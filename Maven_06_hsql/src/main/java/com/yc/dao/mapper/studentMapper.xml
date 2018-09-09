@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yc.dao.mapper.studentMapper">
+        <!--开启缓存机制 ：了解缓存的实现框架和实现机制： 1.ehcach  2.基于Redis的框架  3.Map-->
+       <cache/>
+
+
+	<insert id="add" parameterType="Student"><!-- order="BEFORE" -->
+
+		<!-- <selectKey keyProperty="stuId" resultType="Integer" > </selectKey> -->
+		insert into student(stuName,stuSex,stuBirthday,classId)
+		values(#{stuName}, #{stuSex}
+		,date_format(#{stuBirthdayFormat},'%Y-%m-%d'),
+		#{ classes.classId})
+
+	</insert>
+
+	<!--测试 if -->
+	<select id="selectStuByIf" parameterType="Student" resultType="Student">
+		select * from student
+		<where>
+			<if test="stuSex !=null">
+				stuSex= #{stuSex}
+			</if>
+			<if test="stuName != null ">
+				and stuName=#{stuName}
+			</if>
+		</where>
+	</select>
+	<!--测试set -->
+	<update id="updateStu" parameterType="Student">
+		update student
+		<set>
+			<if test="stuName !=null and stuName != '' ">
+				stuName= #{stuName},
+			</if>
+			<if test="stuSex !=null and stuSex != '' ">
+				stuSex = #{stuSex}
+			</if>
+		</set>
+		where stuId = ${stuId}
+	</update>
+
+	<select id="selectStuByTrim" parameterType="Student" resultType="Student">
+		select * from student
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="stuSex !=null">
+				and stuSex= #{stuSex}
+			</if>
+			<if test="stuName != null ">
+				or stuName=#{stuName}
+			</if>
+		</trim>
+	</select>
+
+	<update id="updateStu02" parameterType="Student">
+		update student
+		<trim prefix="set" prefixOverrides=",">
+			<if test="stuName !=null and stuName != '' ">
+				stuName= #{stuName},
+			</if>
+			<if test="stuSex !=null and stuSex != '' ">
+				stuSex = #{stuSex},
+			</if>
+			where stuId=#{stuId}
+		</trim>
+		
+	<!--选择查询 -->
+	</update>
+	<select id="getStu03" parameterType="Student" resultType="Student">
+		select * from student
+		<where>
+			<choose>
+				<when test="stuName != null and stuName != '' ">
+					stuName= #{stuName}
+				</when>
+				<when test="stuSex !=null and stuSex != ''  ">
+					stuSex= #{stuSex}
+				</when>
+				<otherwise>classId = 3001</otherwise>
+			</choose>
+		</where>
+	</select>
+	
+		<!--緩存的測試-->
+
+	<select  id="findAllStudent"  resultType="Student">
+	    select * from student 
+	</select>
+
+</mapper>

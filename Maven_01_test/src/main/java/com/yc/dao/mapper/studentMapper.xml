@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yc.dao.mapper.studentMapper">
+
+	<select id="selectOneStudent" parameterType="int" resultMap="studentMap2">
+		select * from Student  where sid = #{sid}
+	</select>
+	<!--  利用Set方法-->
+	<resultMap type="com.yc.bean.Student" id="studentMap">
+	     <id property="sid" column="sid" />
+	      <result property="sname" column="sname" /> 
+	</resultMap>
+	
+	<!--  利用构造方法-->
+	<resultMap type="com.yc.bean.Student" id="studentMap2">
+	      <constructor>
+	            <idArg column ="sid" javaType="Integer"/>
+	            <arg column="sname"  javaType="String" />
+	      </constructor>
+	</resultMap>
+	
+	<insert id="addStudent" parameterType="String"  >
+		insert into   Student(sname)   values(  #{sname})
+	</insert>
+	
+	
+	<update id="updateStudent" parameterType="com.yc.bean.Student"  >
+		update  Student set sname=#{sname} where sid=#{sid}
+	</update>
+	
+	<delete id="delStudent" parameterType="int"  >
+		 delete from Student where  sid = #{sid }
+	</delete>
+</mapper>

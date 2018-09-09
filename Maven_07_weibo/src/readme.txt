@@ -1,0 +1,11 @@
+类型                           键名                                             								 意义
+string        global:topicid                                   存最新的topicid
+string        global:userid                                    存最新的用户id
+string        user:userid:1:username                 存1号用户的用户名
+string        user:userid:1:password                  存1号用户密码
+hash          topic:topicid:1                                  存1号贴子信息
+set            following:1                                         存1号用户所有的关注id
+set            follower:1                                           存2号用户所有粉丝id
+list            receivepost:1                                    存1号用户所有待读信息id
+string       user:username:zy:userid                存zy这个用户的用户编号
+list            newuserlink                                      存最新的10个新注册用户

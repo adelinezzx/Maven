@@ -1,0 +1,27 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+  	<servlet-name>FilmServlet</servlet-name>
+  	<display-name>FilmServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.yc.web.servlets.FilmServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>BaseServlet</servlet-name>
+  	<display-name>BaseServlet</display-name>
+  	<description></description>
+  	<servlet-class>com.yc.web.servlets.BaseServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>FilmServlet</servlet-name>
+  	<url-pattern>/film.action</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>BaseServlet</servlet-name>
+  	<url-pattern>/BaseServlet</url-pattern>
+  </servlet-mapping>
+</web-app>

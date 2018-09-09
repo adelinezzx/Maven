@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yc.model.Sysuser">
+
+	<!--查询所有的用户 -->
+	<select id="getAll" resultType="com.yc.bean.Sysuser">
+
+		select * from sysuser
+
+	</select>
+	<!-- 获得指定用户的信息 -->
+
+	<select id="getAUser"  parameterType="int"  resultType="com.yc.bean.Sysuser">
+
+		select * from sysuser  where id =#{id}
+
+	</select>
+	
+	<!-- 更新指定用户的信息 -->
+	
+	<update id="update"  parameterType="com.yc.bean.Sysuser" >
+	      update sysuser set username = #{username}, password =#{password}    where id=#{id}
+	
+	</update>
+	
+	<delete id="delete" parameterType="int">
+	      delete  from  sysuser where id = #{id}
+	</delete>
+</mapper>

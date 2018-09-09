@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yc.model.FilmInfoMapper">
+
+	<!-- 添加电影信息 -->
+	<insert id="insertFilmInfo" parameterType="FilmInfo">
+
+		insert into filminfo
+		(typeid,filmname,actor ,director,ticketprice)
+		values
+		(#{filmtype.typeid},#{filmname},#{actor},#{director},#{ticketprice} )
+	</insert>
+
+	<!-- 复杂查询 -->
+	<select id="selectComplex" parameterType="java.util.Map"
+		resultMap="FilmInfoMap">
+		select filmid,typename,filminfo.typeid as
+		typeid,filmname,actor,director,ticketprice
+		from filminfo
+		left join
+		filmtype
+		on filmtype.typeid=filminfo.typeid
+		<where>
+			<if test="filmname != null and filmname != '' ">
+				filmname like '%${filmname}%'
+			</if>
+			<if test="typename != null and typename != '' ">
+				and  typename =  #{typename} 
+			</if>
+			<if test="actor != null and actor != '' ">
+				and  actor =  #{actor} 
+			</if>
+			<if test="director != null and director != '' ">
+				and  director =  #{director} 
+			</if>
+			<if test="minprice != null and maxprice != '' ">
+				and  ticketprice  between ${minprice} and ${maxprice}
+			</if>
+		</where>
+	</select>
+		<!--查询结果与实体中的属性的映射关系  相当于一个  parameterType="FilmInfo"    -->
+	<resultMap type="FilmInfo" id="FilmInfoMap">
+		<id column="filmid" property="filmid" />
+		<result column="filmname" property="filmname" />
+		<result column="actor" property="actor" />
+		<result column="director" property="director" />
+		<result column="ticketprice" property="ticketprice" />
+		<association property="filmtype" resultMap="FilmTypeMap"></association>
+	</resultMap>
+
+	<resultMap type="FilmType" id="FilmTypeMap">
+		<id column="typeid" property="typeid" />
+		<result column="typename" property="typename" />
+	</resultMap>
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yc.dao.mapper.userMapper">
+
+	<select id="login" parameterType="com.yc.bean.Users" resultType="com.yc.bean.Users">  
+		select * from users  where username =#{username}   AND password =#{password}
+	</select>
+	
+	
+	<select id="getAllUserCount"  resultType="int">  
+		select count(*)  from users   
+	</select>
+	
+	<select id="showAllUsers"     resultType="com.yc.bean.Users">  
+		select * from users  where 1=1 limit #{start} ,#{pagesize}
+	</select>
+	
+	<insert id="addUser" parameterType="com.yc.bean.Users"  >
+		insert into   users(username,password,tel,email)   values(  #{username},#{password},#{tel},#{email})
+	</insert>
+	
+	
+	<update id="updateUser" parameterType="com.yc.bean.Users"  >
+		update  users set username=#{username}, password=#{password},tel=#{tel},email=#{email}  where userid =#{userid}
+	</update>
+	
+	<delete id="delUser" parameterType="com.yc.bean.Users"  >
+		 delete from users where  sid = #{sid }
+	</delete>
+</mapper>

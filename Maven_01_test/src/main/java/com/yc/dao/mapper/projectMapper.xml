@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yc.dao.mapper.projectMapper">
+
+	<resultMap id="engneerMap" type="com.yc.bean.Engneer">
+		<id property="eid" column="eid" />
+		<result property="ename" column="ename" />
+	</resultMap>
+
+	<resultMap id="projectMap" type="com.yc.bean.Project">
+		<id property="pid" column="pid" />
+		<result property="pname" column="pname" />
+		<collection property="engneers" column="eid"
+			ofType="com.yc.bean.Engneer" resultMap="engneerMap" />
+	</resultMap>
+
+	<!--查询 某一个项目的项目信息以及项目对应的 工作人员 -->
+	<select id="selectProject" parameterType="int" resultMap="projectMap">
+		select project.pid as pid , pname, engneer.eid , ename
+		from project
+		left join connect on connect.pid = project.pid
+		left join engneer on engneer.eid = connect.eid
+		where project.pid = #{pid}
+	</select>
+	<!--查询所有项目以及项目对应的 工作人员 -->
+	<select id="selectAllProject" resultMap="projectMap">
+		select project.pid as pid , pname, engneer.eid , ename
+		from project
+		left join connect on connect.pid = project.pid
+		left join engneer on engneer.eid = connect.eid
+	</select>
+
+
+	<select id="selectEngneer" parameterType="int" resultType="com.yc.bean.Engneer">
+		select * from engneer where eid =#{eid}
+	</select>
+</mapper>

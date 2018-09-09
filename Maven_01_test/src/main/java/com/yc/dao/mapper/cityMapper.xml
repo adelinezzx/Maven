@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.yc.dao.mapper.cityMapper">
+	<!--  sql语句执行两次  -->
+	<!-- <resultMap type="com.yc.bean.City" id="cityMap">
+		<id property="cid" column="cid" />
+		<result property="cname" column="cname" />
+		<association property="province" column="pid"
+			select="selectOneProvince" />
+	</resultMap>
+
+
+	<select id="selectOneCity" parameterType="Integer" resultMap="cityMap">
+		select * from city where cid = #{cid}
+
+	</select>
+
+	<select id="selectOneProvince" parameterType="Integer"
+		resultType="com.yc.bean.Province">
+		select * from province where pid = #{pid}
+	</select> -->
+	<!--  另一个方法  sql语句只执行一次  -->
+	 <resultMap type="com.yc.bean.City" id="cityMap">
+		<id property="cid" column="cid" />
+		<result property="cname" column="cname" />
+		<association property="province" column="pid"
+			resultMap="provinceMap" />
+	</resultMap>
+	<resultMap type="com.yc.bean.Province" id="provinceMap">
+		<id property="pid" column="pid" />
+		<result property="pname" column="pname" />
+	</resultMap>
+
+
+	<select id="selectOneProvince" parameterType="Integer"
+		resultMap="provinceMap">
+		select * from province where pid = #{pid}
+	</select>
+</mapper>
